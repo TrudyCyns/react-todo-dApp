@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { clearTasks, getTasks, setTask } from "./contract";
+import { clearTasks, deleteTask, getTasks, setTask } from "./contract";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -62,7 +62,7 @@ function App() {
           className="btn btn-danger col-sm-3"
           onClick={async () => {
             await clearTasks();
-            setTasks(null)
+            setTasks(null);
           }}
         >
           Clear All Tasks
@@ -71,18 +71,23 @@ function App() {
 
       <p className="h4">Tasks</p>
       {tasks ? (
-        <table class="table p-3">
+        <table className="table p-3">
           <tbody>
-            {tasks.map((task, index) => (
-              <tr key={index}>
-                <td>{task}</td>
-                <td>
-                  <button className="btn btn-outline-danger">
-                    Delete Task
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {tasks.map((task, index) =>
+              task === "" ? null : (
+                <tr key={index}>
+                  <td>{task}</td>
+                  <td>
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={async () => {await deleteTask(task)}}
+                    >
+                      Delete Task
+                    </button>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       ) : (

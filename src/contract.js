@@ -2,12 +2,38 @@ import Web3 from "web3";
 
 const web3 = new Web3("http://127.0.0.1:7545");
 
-const TaskContractAddress = "0x3E98eAd12Df4C5A18A82216D05877B64565F0Fb8";
+const TaskContractAddress = "0x051F52d098a8cbBc381eaF45B6357d7E3b77772F";
 
 const TaskContractABI = [
   {
     inputs: [],
     name: "clearTasks",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_task",
+        type: "string",
+      },
+    ],
+    name: "deleteTask",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_task",
+        type: "string",
+      },
+    ],
+    name: "setTasks",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -23,19 +49,6 @@ const TaskContractABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_task",
-        type: "string",
-      },
-    ],
-    name: "setTasks",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];
@@ -69,4 +82,9 @@ const clearTasks = async () => {
   await TaskContract.methods.clearTasks().send({ from: account });
 };
 
-export { setTask, getTasks, clearTasks };
+const deleteTask = async (task) => {
+  await TaskContract.methods.deleteTask(task).send({ from: account });
+  await getTasks();
+};
+
+export { setTask, getTasks, clearTasks, deleteTask };
